@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:25:05 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/28 14:59:45 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/28 22:10:10 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,27 @@ void	ft_free(char **arr)
 
 int 	main(int argc, char **argv, char **envp)
 {
-	int		pid;
-	t_pipe	*args;
-	
+	pid_t	pid;
+	pid_t	pid2;
+	int		status;
 	if (argc != 5)
 		return (msg("Invalid numbers of arguments\n"));
 	args = ft_calloc(sizeof(t_pipe), 1);
-	pipe(args->pipefd);
+	pipe(args->pipefd)
 	pid = fork();
 	if (pid == -1) {
         perror("fork failed");
-        return (1);
+        exit (1);
     }
 	if (pid == 0)
-	{
 		cmd1(args, argv, envp);
-	}
-	cmd2(args, argv, envp);
-	close(args->pipefd[0]);
-	close(args->pipefd[1]);
-	wait(NULL);
+	else
+		pid2 = fork();
+	if (pid2 == 0)
+		cmd2(args, argv, envp);
+	closefd(args);
+	waitpid(pid, &status, 0);
+	waitpid(pid2, &status, 0);
 	free(args);
 	return (1);
 }
