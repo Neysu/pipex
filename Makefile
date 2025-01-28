@@ -9,7 +9,7 @@ OBJ_DIR = obj
 
 # Source files
 LIBFT_SRCS = $(wildcard $(LIBFT_DIR)/**/*.c)
-SRCS = $(SRC_DIR)/pipex.c $(SRC_DIR)/exec.c
+SRCS = $(SRC_DIR)/pipex.c $(SRC_DIR)/exec.c $(SRC_DIR)/utils.c
 
 # Object files
 LIBFT_OBJS = $(patsubst $(LIBFT_DIR)/%.c, $(OBJ_DIR)/%.o, $(LIBFT_SRCS))

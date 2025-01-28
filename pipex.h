@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:22:26 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/28 21:49:25 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:12:37 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <stdbool.h>
 
 typedef struct s_pipe
 {
@@ -47,6 +48,7 @@ char	*findcmd(t_pipe *args, char **envp);
 void	ft_free(char **arr);
 void	closefd(t_pipe *args);
 void	invalidcommand(t_pipe *args);
+void	errorfd(char *file, t_pipe *args);
 void    cmd2(t_pipe *args, char **argv, char **envp);
 void	cmd1(t_pipe *args, char **argv, char **envp);
 
