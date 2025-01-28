@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:22:26 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/28 14:23:42 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:31:45 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_pipe
 } t_pipe;
 
 int		msg(char *s);
+
+char	*findcmd(t_pipe *args, char **envp);
 
 void	invalidcommand(t_pipe *args);
 void    cmd2(t_pipe *args, char **argv, char **envp);

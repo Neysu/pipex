@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:25:05 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/28 14:24:03 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:59:45 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,12 @@ int 	main(int argc, char **argv, char **envp)
         return (1);
     }
 	if (pid == 0)
+	{
 		cmd1(args, argv, envp);
-	else
-		pid = fork();
-	if (pid == 0)
-		cmd2(args, argv, envp);
+	}
+	cmd2(args, argv, envp);
 	close(args->pipefd[0]);
 	close(args->pipefd[1]);
-	wait(NULL);
 	wait(NULL);
 	free(args);
 	return (1);
