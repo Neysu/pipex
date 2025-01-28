@@ -6,15 +6,18 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:05:28 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/23 16:26:37 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:23:50 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "pipex.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
+
+void	invalidcommand(t_pipe *args)
+{
+	msg("Invalid Command\n");
+	free(args);
+	exit(1);
+}
 
 void	cmd1(t_pipe *args, char **argv, char **envp)
 {
@@ -33,9 +36,7 @@ void	cmd1(t_pipe *args, char **argv, char **envp)
 	tmp = ft_strjoin("/bin/", args->cmd[0]);
 	if (access(tmp, 0))
 	{
-		msg("Invalid Command\n");
-		ft_free(args->cmd);
-		free(args);
+		invalidcommand(args);
 		free(tmp);
 		exit(1);
 	}
@@ -62,9 +63,7 @@ void	cmd2(t_pipe *args, char **argv, char **envp)
 	tmp = ft_strjoin("/bin/", args->cmd[0]);
 	if (access(tmp, 0))
 	{
-		msg("Invalid Command\n");
-		ft_free(args->cmd);
-		free(args);
+		invalidcommand(args);
 		free(tmp);
 		exit(1);
 	}

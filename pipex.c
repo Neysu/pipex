@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:25:05 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/23 16:22:55 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/28 14:24:03 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int 	main(int argc, char **argv, char **envp)
 	int		pid;
 	t_pipe	*args;
 	
-	args = ft_calloc(sizeof(t_pipe), 1);
 	if (argc != 5)
 		return (msg("Invalid numbers of arguments\n"));
+	args = ft_calloc(sizeof(t_pipe), 1);
 	pipe(args->pipefd);
 	pid = fork();
 	if (pid == -1) {
