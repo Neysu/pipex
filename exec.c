@@ -6,9 +6,10 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:05:28 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/29 00:12:05 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/30 21:02:45 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "pipex.h"
 
@@ -25,12 +26,13 @@ char	*findcmd(t_pipe *args, char **envp)
 		i++;
 	path = ft_split(envp[i] + 5, ':');
 	i = 0;
-	while (path[i++])
+	while (path[i])
 	{
 		tmp = ft_strsep(path[i], args->cmd[0], '/');
 		if (!access(tmp, X_OK))
-			ret = tmp;
+			ret = ft_strdup(tmp);
 		free(tmp);
+		i++;
 	}
 	ft_free(path);
 	return (ret);
@@ -47,7 +49,7 @@ void	openfile(t_pipe *args, char **argv, bool file)
 			perror(MISS_INFILE);
 			exit (1);
 		}
-		dup2(args->infile, STDIN_FILENO);
+		dup2(args->infile, 0);
 		close(args->infile);
 	}
 	else
@@ -59,14 +61,14 @@ void	openfile(t_pipe *args, char **argv, bool file)
 			perror(MISS_OUTFILE);
 			exit (1);
 		}
-		dup2(args->outfile, STDOUT_FILENO);
+		dup2(args->outfile, 1);
 		close(args->outfile);
 	}
 }
 
 void	cmd1(t_pipe *args, char **argv, char **envp)
 {
-	char *tmp;
+	char 	*tmp;
 	
 	openfile(args, argv, true);
 	args->cmd = ft_split(argv[2], ' ');
@@ -77,38 +79,45 @@ void	cmd1(t_pipe *args, char **argv, char **envp)
 		invalidcommand(args);
 		exit(1);
 	}
-	if (dup2(args->pipefd[1], STDOUT_FILENO) == -1)
+	if (dup2(args->pipefd[1], 1) == -1)
 	{
 		perror("dup2");
 		exit(1);
 	}
 	closefd(args);
-	execve(tmp, args->cmd, envp);
-	free(tmp);
-	exit(127);
+	if (execve(tmp, args->cmd, envp))
+	{
+		perror("execve1");
+		exit(1);
+	}
+	ft_free(args->cmd);
+	exit(1);
 }
 
 void	cmd2(t_pipe *args, char **argv, char **envp)
 {
-	char *path;
+	char 	*tmp;
 	
 	openfile(args, argv, false);
 	args->cmd = ft_split(argv[3], ' ');
-	path = findcmd(args, envp);
-	if (!path)
+	tmp = findcmd(args, envp);
+	if (!tmp)
 	{
-		ft_free(args->cmd);
 		closefd(args);
 		invalidcommand(args);
 		exit(1);
 	}
-	if (dup2(args->pipefd[0], STDIN_FILENO) == -1)
+	if (dup2(args->pipefd[0], 0) == -1)
 	{
 		perror("dup2");
 		exit(1);
 	}
 	closefd(args);
-	execve(path, args->cmd, envp);
-	free(path);
-	exit(127);
+	if (execve(tmp, args->cmd, envp))
+	{
+		perror("execve2");
+		exit(1);
+	}
+	ft_free(args->cmd);
+	exit(1);
 }
