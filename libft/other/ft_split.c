@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 01:40:14 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/23 16:16:06 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/30 22:42:13 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_alloc(char **tab, const char *s, char c)
 		if (!tab[j])
 		{
 			ft_free(tab, j);
-			return;
+			return ;
 		}
 		j++;
 	}
@@ -83,7 +83,7 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	word_count = ft_count_words(s, c);
-	tbl = ft_calloc(sizeof(char*), word_count + 1);
+	tbl = ft_calloc(sizeof(char *), word_count + 1);
 	if (!tbl)
 		return (NULL);
 	ft_alloc(tbl, s, c);
@@ -94,4 +94,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (tbl);
 }
-

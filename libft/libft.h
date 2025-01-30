@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:05:16 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/29 00:09:21 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:46:06 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <sys/wait.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE	24
+#  define BUFFER_SIZE	24
 # endif
 
 int		ft_tolower(int c);

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 15:10:03 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/19 17:45:10 by elliot           ###   ########.fr       */
+/*   Updated: 2025/01/30 22:44:11 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft.h"
 
 int	ft_isprint(int c)
 {

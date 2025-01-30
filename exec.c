@@ -6,10 +6,9 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:05:28 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/30 21:02:45 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/30 22:51:26 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "pipex.h"
 
@@ -19,7 +18,7 @@ char	*findcmd(t_pipe *args, char **envp)
 	char	*ret;
 	char	*tmp;
 	char	**path;
-	
+
 	i = 0;
 	ret = NULL;
 	while (ft_strncmp(envp[i], "PATH=", 5))
@@ -68,56 +67,56 @@ void	openfile(t_pipe *args, char **argv, bool file)
 
 void	cmd1(t_pipe *args, char **argv, char **envp)
 {
-	char 	*tmp;
-	
+	char	*tmp;
+
 	openfile(args, argv, true);
 	args->cmd = ft_split(argv[2], ' ');
 	tmp = findcmd(args, envp);
 	if (!tmp)
 	{
+		ft_free(args->cmd);
 		closefd(args);
 		invalidcommand(args);
 		exit(1);
 	}
 	if (dup2(args->pipefd[1], 1) == -1)
 	{
+		ft_free(args->cmd);
 		perror("dup2");
 		exit(1);
 	}
 	closefd(args);
 	if (execve(tmp, args->cmd, envp))
-	{
-		perror("execve1");
-		exit(1);
-	}
+		(ft_free(args->cmd), perror("execve"), exit(1));
 	ft_free(args->cmd);
+	free(tmp);
 	exit(1);
 }
 
 void	cmd2(t_pipe *args, char **argv, char **envp)
 {
-	char 	*tmp;
-	
+	char	*tmp;
+
 	openfile(args, argv, false);
 	args->cmd = ft_split(argv[3], ' ');
 	tmp = findcmd(args, envp);
 	if (!tmp)
 	{
+		ft_free(args->cmd);
 		closefd(args);
 		invalidcommand(args);
 		exit(1);
 	}
 	if (dup2(args->pipefd[0], 0) == -1)
 	{
+		ft_free(args->cmd);
 		perror("dup2");
 		exit(1);
 	}
 	closefd(args);
-	if (execve(tmp, args->cmd, envp))
-	{
-		perror("execve2");
-		exit(1);
-	}
+	if (execve(tmp, args->cmd, envp) == -1)
+		(ft_free(args->cmd), perror("execve"), exit(1));
 	ft_free(args->cmd);
+	free(tmp);
 	exit(1);
 }
