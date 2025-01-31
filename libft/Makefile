@@ -1,39 +1,68 @@
-LIBFT_DIR = libft
-NAME = $(LIBFT_DIR)/libft.a
-EXEC = main
-
+# Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-RM = rm -f
 
-SRC_DIR = $(LIBFT_DIR)
-SRCS = $(wildcard $(SRC_DIR)/**/*.c)
-OBJS = $(SRCS:.c=.o)
+# Library name
+NAME = libft.a
 
-MAIN = main.c
-MAIN_OBJ = $(MAIN:.c=.o)
+# Source files
+SRC = \
+	ft_is/ft_isalnum.c \
+	ft_is/ft_isalpha.c \
+	ft_is/ft_isascii.c \
+	ft_is/ft_isdigit.c \
+	ft_is/ft_isprint.c \
+	ft_mem/ft_memchr.c \
+	ft_mem/ft_memcmp.c \
+	ft_mem/ft_memcpy.c \
+	ft_mem/ft_memmove.c \
+	ft_mem/ft_memset.c \
+	ft_put/ft_putchar_fd.c \
+	ft_put/ft_putendl_fd.c \
+	ft_put/ft_putnbr_fd.c \
+	ft_put/ft_putstr_fd.c \
+	ft_put/ft_puttab.c \
+	ft_str/ft_strchr.c \
+	ft_str/ft_strdup.c \
+	ft_str/ft_striteri.c \
+	ft_str/ft_strjoin.c \
+	ft_str/ft_strlcat.c \
+	ft_str/ft_strlcpy.c \
+	ft_str/ft_strlen.c \
+	ft_str/ft_strmapi.c \
+	ft_str/ft_strncmp.c \
+	ft_str/ft_strnstr.c \
+	ft_str/ft_strrchr.c \
+	ft_str/ft_strsep.c \
+	ft_str/ft_strtrim.c \
+	ft_str/ft_substr.c \
+	ft_to/ft_tolower.c \
+	ft_to/ft_toupper.c \
+	get_next_line/get_next_line.c \
+	other/ft_split.c \
+	other/ft_atoi.c \
+	other/ft_calloc.c \
+	other/ft_itoa.c \
+	other/ft_bzero.c \
 
-INCLUDES = -I$(SRC_DIR)
+# Object files
+OBJ = $(SRC:.c=.o)
 
-all: $(NAME) $(EXEC)
+# Rules
+all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(AR) $@ $^
+$(NAME): $(OBJ)
+	ar rcs $(NAME) $(OBJ)
 
-$(EXEC): $(NAME) $(MAIN_OBJ)
-	$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+%.o: %.c libft.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(MAIN_OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
-	$(RM) $(NAME) $(EXEC)
+	rm -f $(NAME)
 
 re: fclean all
 
 .PHONY: all clean fclean re
-
