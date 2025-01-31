@@ -2,41 +2,38 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-# Directories
-LIBFT_DIR = libft
-SRC_DIR = .
-OBJ_DIR = obj
-
-# Source files
-LIBFT_SRCS = $(wildcard $(LIBFT_DIR)/**/*.c)
-SRCS = $(SRC_DIR)/pipex.c $(SRC_DIR)/exec.c $(SRC_DIR)/utils.c
-
-# Object files
-LIBFT_OBJS = $(patsubst $(LIBFT_DIR)/%.c, $(OBJ_DIR)/%.o, $(LIBFT_SRCS))
-OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
-
-# Target executable
+# Executable name
 NAME = pipex
 
+# Library
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
+# Source files
+SRC = exec.c pipex.c utils.c
+
+# Object files
+OBJ = $(SRC:.c=.o)
+
 # Rules
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(LIBFT_OBJS) $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
-$(OBJ_DIR)/%.o: $(LIBFT_DIR)/%.c
-	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
+%.o: %.c pipex.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -f $(OBJ)
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
