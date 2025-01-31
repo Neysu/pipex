@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:05:16 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/30 22:46:06 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/31 00:31:26 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
+void	ft_puttab_fd(char **tab, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));

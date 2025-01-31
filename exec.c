@@ -6,11 +6,13 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 17:05:28 by elliot            #+#    #+#             */
-/*   Updated: 2025/01/30 22:51:26 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/01/31 01:03:34 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "pipex.h"
+#include <unistd.h>
 
 char	*findcmd(t_pipe *args, char **envp)
 {
@@ -21,6 +23,8 @@ char	*findcmd(t_pipe *args, char **envp)
 
 	i = 0;
 	ret = NULL;
+	if (!access(args->cmd[0], X_OK))
+		return (args->cmd[0]);
 	while (ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	path = ft_split(envp[i] + 5, ':');
@@ -67,12 +71,12 @@ void	openfile(t_pipe *args, char **argv, bool file)
 
 void	cmd1(t_pipe *args, char **argv, char **envp)
 {
-	char	*tmp;
+	char	*path;
 
 	openfile(args, argv, true);
 	args->cmd = ft_split(argv[2], ' ');
-	tmp = findcmd(args, envp);
-	if (!tmp)
+	path = findcmd(args, envp);
+	if (!path)
 	{
 		ft_free(args->cmd);
 		closefd(args);
@@ -85,22 +89,22 @@ void	cmd1(t_pipe *args, char **argv, char **envp)
 		perror("dup2");
 		exit(1);
 	}
-	closefd(args);
-	if (execve(tmp, args->cmd, envp))
+	(close(args->pipefd[0]), close(args->pipefd[1]));
+	if (execve(path, args->cmd, envp))
 		(ft_free(args->cmd), perror("execve"), exit(1));
 	ft_free(args->cmd);
-	free(tmp);
+	free(path);
 	exit(1);
 }
 
 void	cmd2(t_pipe *args, char **argv, char **envp)
 {
-	char	*tmp;
+	char	*path;
 
 	openfile(args, argv, false);
 	args->cmd = ft_split(argv[3], ' ');
-	tmp = findcmd(args, envp);
-	if (!tmp)
+	path = findcmd(args, envp);
+	if (!path)
 	{
 		ft_free(args->cmd);
 		closefd(args);
@@ -113,10 +117,10 @@ void	cmd2(t_pipe *args, char **argv, char **envp)
 		perror("dup2");
 		exit(1);
 	}
-	closefd(args);
-	if (execve(tmp, args->cmd, envp) == -1)
+	(close(args->pipefd[0]), close(args->pipefd[1]));
+	if (execve(path, args->cmd, envp) == -1)
 		(ft_free(args->cmd), perror("execve"), exit(1));
 	ft_free(args->cmd);
-	free(tmp);
+	free(path);
 	exit(1);
 }

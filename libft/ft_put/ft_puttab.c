@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ft_puttab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 22:53:55 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/31 01:02:50 by egibeaux         ###   ########.fr       */
+/*   Created: 2025/01/31 00:30:38 by egibeaux          #+#    #+#             */
+/*   Updated: 2025/01/31 01:03:55 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../libft.h"
 
-void	closefd(t_pipe *args)
+void	ft_puttab_fd(char **tab, int fd)
 {
-	close(args->pipefd[0]);
-	close(args->pipefd[1]);
-	free(args);
-}
+	int		i;
 
-void	errorfd(char *file, t_pipe *args)
-{
-	closefd(args);
-	perror(file);
-	exit (1);
-}
-
-void	invalidcommand(t_pipe *args)
-{
-	msg("Invalid Command\n");
-	(void)args;
-	exit(1);
+	i = 0;
+	while (tab[i])
+	{
+		ft_putendl_fd(tab[i], fd);
+		i++;
+	}
 }
